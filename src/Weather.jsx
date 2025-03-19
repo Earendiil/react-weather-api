@@ -1,30 +1,35 @@
 import { useState, useEffect } from 'react';
 
 function Weather() {
-  const [city, setCity] = useState("London");
+  const [city, setCity] = useState("");
   const [weather, setWeather] = useState({});
   const [loading, setLoading] = useState(false);
-  const [debouncedTitle, setDebouncedtitle] = useState(city);
+  const [debouncedTitle, setDebouncedTitle] = useState(city);
+  const [favoriteCities, setFavoriteCities] = useState(["Leipzig", "Patras"]);
+  const [favoriteWeather, setFavoriteWeather] = useState([]);
 
-  useEffect(() =>{
-    const timer = setTimeout(() =>{
-
-        setDebouncedtitle(city);
+  // Debouncing the city input
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedTitle(city);  // Update the debounced title after 500ms
     }, 500);
 
     return () => {
-        clearTimeout(timer);
+      clearTimeout(timer);  // Cleanup timeout when the city input changes
     };
   }, [city]);
-  
+
+  const handleFavoriteCityClick = (cityName) => {
+    setCity(cityName);  // Update city to the clicked favorite city
+  };
 
   // Fetch weather data based on the city
   useEffect(() => {
     if (!debouncedTitle) return; 
 
-    const fetchWeatherData = async () => {
+    const fetchWeatherData = async (cityName) => {
       setLoading(true);
-      const response = await fetch(`https://wttr.in/${city}?format=%C+%t+%h`);
+      const response = await fetch(`https://wttr.in/${cityName}?format=%C+%t+%h`);
       const data = await response.text();
       
       const [condition, temperature, humidity] = data.split(" ");
@@ -36,11 +41,36 @@ function Weather() {
       setLoading(false);
     };
 
-    fetchWeatherData();
+    // Fetch weather for the selected city
+    fetchWeatherData(debouncedTitle);
   }, [debouncedTitle]);
 
+  // Fetch weather data for the favorite cities when the component mounts
+  useEffect(() => {
+    const fetchFavoriteCitiesWeather = async () => {
+      const weatherData = [];
+      for (const city of favoriteCities) {
+        const response = await fetch(`https://wttr.in/${city}?format=%C+%t+%h`);
+        const data = await response.text();
+        
+        const [condition, temperature, humidity] = data.split(" ");
+        weatherData.push({
+          city,
+          condition,
+          temperature,
+          humidity,
+        });
+      }
+      setFavoriteWeather(weatherData);
+    };
+
+    fetchFavoriteCitiesWeather();
+  }, [favoriteCities]);  // Runs only once when the component mounts
+
   return (
+    <div className='weather'>
     <div>
+        
       <h1>Weather App</h1>
       <input
         type="text"
@@ -48,9 +78,7 @@ function Weather() {
         onChange={(e) => setCity(e.target.value)}
         placeholder="Enter city name"
       />
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
+         {loading ? ( <p>Loading...</p>   ) : (
         <div>
           <h2>Weather in {city}</h2>
           <p>Condition: {weather.condition}</p>
@@ -58,6 +86,21 @@ function Weather() {
           <p>Humidity: {weather.humidity}</p>
         </div>
       )}
+
+      <h2>Favorite Cities</h2>
+      <div className='favorites'>
+        {favoriteWeather.map((cityData) => (
+          <div key={cityData.city}>
+            <h3>{cityData.city}</h3>
+            <p>Condition: {cityData.condition}</p>
+            <p>Temperature: {cityData.temperature}</p>
+            <p>Humidity: {cityData.humidity}</p>
+          </div>
+        ))}
+        
+      </div>
+     
+    </div>
     </div>
   );
 }
