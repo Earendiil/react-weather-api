@@ -4,9 +4,24 @@ function Weather() {
   const [city, setCity] = useState("London");
   const [weather, setWeather] = useState({});
   const [loading, setLoading] = useState(false);
+  const [debouncedTitle, setDebouncedtitle] = useState(city);
+
+  useEffect(() =>{
+    const timer = setTimeout(() =>{
+
+        setDebouncedtitle(city);
+    }, 500);
+
+    return () => {
+        clearTimeout(timer);
+    };
+  }, [city]);
+  
 
   // Fetch weather data based on the city
   useEffect(() => {
+    if (!debouncedTitle) return; 
+
     const fetchWeatherData = async () => {
       setLoading(true);
       const response = await fetch(`https://wttr.in/${city}?format=%C+%t+%h`);
@@ -22,7 +37,7 @@ function Weather() {
     };
 
     fetchWeatherData();
-  }, [city]);
+  }, [debouncedTitle]);
 
   return (
     <div>
