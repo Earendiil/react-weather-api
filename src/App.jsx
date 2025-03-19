@@ -2,6 +2,7 @@ import { useState } from 'react'
 
 import './App.css'
 import Calculate from './Calculate'
+import Weather from './Weather'
 
 
 function App() {
@@ -9,7 +10,7 @@ function App() {
 
   return (
     <div>
-      <Calculate />
+      <Weather />
 
     </div>
   )

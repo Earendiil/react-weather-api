@@ -35,7 +35,7 @@ export default function Calculate () {
              onChange={(e) => setSecondNumber(Number (e.target.value))}></input>
 
       <div className="calculations">
-      <h2>Choose a calculation</h2>
+      <h2>Choose a calculation </h2>
             <button onClick={increment}>+</button>
             <button onClick={decrement}>-</button>
             <button onClick={multiply}>*</button>
