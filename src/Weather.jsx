@@ -11,16 +11,16 @@ function Weather() {
   // Debouncing the city input
   useEffect(() => {
     const timer = setTimeout(() => {
-      setDebouncedTitle(city);  // Update the debounced title after 500ms
+      setDebouncedTitle(city);  
     }, 500);
 
     return () => {
-      clearTimeout(timer);  // Cleanup timeout when the city input changes
+      clearTimeout(timer);  // Cleanup timeout city input changes
     };
   }, [city]);
 
   const handleFavoriteCityClick = (cityName) => {
-    setCity(cityName);  // Update city to the clicked favorite city
+    setCity(cityName);  
   };
 
   // Fetch weather data based on the city
@@ -41,11 +41,11 @@ function Weather() {
       setLoading(false);
     };
 
-    // Fetch weather for the selected city
+    
     fetchWeatherData(debouncedTitle);
   }, [debouncedTitle]);
 
-  // Fetch weather data for the favorite cities when the component mounts
+  // Fetch  data for the favorite only when the component mounts
   useEffect(() => {
     const fetchFavoriteCitiesWeather = async () => {
       const weatherData = [];
@@ -65,7 +65,7 @@ function Weather() {
     };
 
     fetchFavoriteCitiesWeather();
-  }, [favoriteCities]);  // Runs only once when the component mounts
+  }, [favoriteCities]); 
 
   return (
     <div className='weather'>
