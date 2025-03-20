@@ -19,9 +19,7 @@ function Weather() {
     };
   }, [city]);
 
-  const handleFavoriteCityClick = (cityName) => {
-    setCity(cityName);  
-  };
+  
 
   // Fetch weather data based on the city
   useEffect(() => {
@@ -71,7 +69,7 @@ function Weather() {
     <div className='weather'>
     <div>
         
-      <h1>Weather App</h1>
+      <h1>Weather App ⛅</h1>
       <input
         type="text"
         value={city}
