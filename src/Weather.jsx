@@ -5,7 +5,7 @@ function Weather() {
   const [weather, setWeather] = useState({});
   const [loading, setLoading] = useState(false);
   const [debouncedTitle, setDebouncedTitle] = useState(city);
-  const [favoriteCities, setFavoriteCities] = useState(["Leipzig", "Patras"]);
+  const [favoriteCities, setFavoriteCities] = useState(["Leipzig", "Patras", "Berlin"]);
   const [favoriteWeather, setFavoriteWeather] = useState([]);
 
   // Debouncing the city input
@@ -27,7 +27,7 @@ function Weather() {
 
     const fetchWeatherData = async (cityName) => {
       setLoading(true);
-      const response = await fetch(`https://wttr.in/${cityName}?format=%C+%t+%h`);
+      const response = await fetch(`https://wttr.in/${cityName}?format=%C+%t+%h&m`);  
       const data = await response.text();
       
       const [condition, temperature, humidity] = data.split(" ");
@@ -48,7 +48,7 @@ function Weather() {
     const fetchFavoriteCitiesWeather = async () => {
       const weatherData = [];
       for (const city of favoriteCities) {
-        const response = await fetch(`https://wttr.in/${city}?format=%C+%t+%h`);
+        const response = await fetch(`https://wttr.in/${city}?format=%C+%t+%h&m`);
         const data = await response.text();
         
         const [condition, temperature, humidity] = data.split(" ");
@@ -76,6 +76,7 @@ function Weather() {
         onChange={(e) => setCity(e.target.value)}
         placeholder="Enter city name"
       />
+      <div className='weather-info'>
          {loading ? ( <p>Loading...</p>   ) : (
         <div>
           <h2>Weather in {city}</h2>
@@ -84,7 +85,7 @@ function Weather() {
           <p>Humidity: {weather.humidity}</p>
         </div>
       )}
-
+      </div>
       <h2>Favorite Cities</h2>
       <div className='favorites'>
         {favoriteWeather.map((cityData) => (
@@ -96,8 +97,8 @@ function Weather() {
           </div>
         ))}
         
-      </div>
-     
+      
+        </div>
     </div>
     </div>
   );

@@ -4,15 +4,30 @@
   padding: 2rem;
   text-align: center;
   padding: 3px;
+
 }
 
 .weather{
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  max-height: 200;
+  min-height: 100;
+  
+}
+
+.weather-info {
+  min-height: 200px; /* reserves spaces so that items below don't move up during loading*/
+  display: flex;
+  align-items: center; 
   justify-content: center;
 }
+
 
 .favorites{
 display: flex;
 gap: 5rem;
 color: rgb(228, 223, 233);
+
 }
