@@ -18,10 +18,11 @@
 }
 
 .weather-info {
-  min-height: 200px; /* reserves spaces so that items below don't move up during loading*/
+  min-height: 200px; /* reserves space so that items below don't move up during loading*/
   display: flex;
   align-items: center; 
   justify-content: center;
+  text-shadow: 3cap;
 }
 
 
@@ -30,4 +31,9 @@ display: flex;
 gap: 5rem;
 color: rgb(228, 223, 233);
 
+}
+
+.favorites button{
+  background-color: transparent;
+  color: rgb(232, 60, 60);
 }
